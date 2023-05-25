@@ -1,0 +1,31 @@
+{
+  "name": "socket_optimization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "start:client":"node client.js",
+    "dev": "nodemon server.js",
+    "dev:client":"nodemon client.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "websockets",
+    "mongoose",
+    "redis"
+  ],
+  "author": "Amos Ng'ang'a",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.1",
+    "redis": "^4.6.6",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
