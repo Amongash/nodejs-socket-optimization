@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
-import { WebSocketServer } from "ws";
+import { WebSocket, WebSocketServer } from "ws";
 import * as Jwt from "jsonwebtoken";
+import * as vehicleService from "./services/vehicles.js";
 
 dotenv.config();
 
@@ -72,12 +73,16 @@ websocketServer.on("connection", (socket) => {
 	});
 
 	// Message event listener
-	socket.on("message", (message) => {
-		console.log(`Incoming message stream: ${message}`);
-		// Verify that message is not empty
-		if (message.t === 0) {
-			console.log(`Empty message received: ${message.toString("hex")}`);
-			socket.close();
+	socket.on("message", async (message) => {
+		try {
+			console.log(`Incoming message stream: ${message}`);
+			// Verify that message is not empty
+			const vehicles = await vehicleService.getVehicles();
+			if (socket.readyState == WebSocket.OPEN) {
+				socket.send(JSON.stringify(vehicles));
+			}
+		} catch (error) {
+			throw error;
 		}
 	});
 
@@ -92,7 +97,7 @@ websocketServer.on("connection", (socket) => {
 	});
 
 	// Send initial message
-	socket.send("something");
+	socket.send(JSON.stringify({ type: "session_id" }));
 });
 
 // Interval to check socket health and send pings
