@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import Vehicle from "../models/vehicles.js";
 import LocationHistory from "../models/locationHistory.js";
+import Violation from "../models/violations.js";
 
 const connectionOptions = {
 	dbName: process.env.MONGODB_NAME || "tracking",
@@ -21,4 +22,4 @@ mongoose
 	.catch((error) => console.error(error.message));
 mongoose.Promise = global.Promise;
 
-export { Vehicle, LocationHistory };
+export { Vehicle, LocationHistory, Violation };

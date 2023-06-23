@@ -1,6 +1,7 @@
 import express from "express";
 import vehicleRouter from "./v1/vehicles.js";
-import LocationHistoryRouter from "./v1/locationHistory.js";
+import locationHistoryRouter from "./v1/locationHistory.js";
+import violationRouter from "./v1/violations.js";
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ router.get("/", (req, res) => {
 	res.send("API is working properly");
 });
 router.use("/vehicles", vehicleRouter);
-router.use("/locHistory", LocationHistoryRouter);
-
+router.use("/locHistory", locationHistoryRouter);
+router.use("/violations", violationRouter);
 
 export default router;
