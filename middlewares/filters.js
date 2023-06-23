@@ -14,12 +14,19 @@ export const verifyQueryParams = (req, res, next) => {
 	 * @property {string} sortField - The field to sort by.
 	 * @property {number} limit - The maximum number of results to return.
 	 * @property {number} skip - The number of results to skip.
+	 * @typedef {Object} Query
+	 * @property {string} vehicle_registration_number - Vehicle Registration Number.
+	 * @property {string} operatorId - Operator ID.
+	 * @property {string} vendorId - Vendor ID.
+	 * @property {string} limiterId - Unique ID.
 	 */
 
 	/** @type {Object} */
 	const { query } = req;
 	/** @type {Filters} */
 	const filters = {};
+	/** @type {Query} */
+	const newQuery = {};
 
 	/**
 	 * Maps a query parameter to a filter field.
@@ -29,7 +36,7 @@ export const verifyQueryParams = (req, res, next) => {
 	 */
 	const mapQueryParamToFilter = (queryParam, filterName) => {
 		if (query[queryParam]) {
-			filters[filterName] = query[queryParam];
+			newQuery[filterName] = query[queryParam];
 		}
 	};
 
@@ -72,23 +79,23 @@ export const verifyQueryParams = (req, res, next) => {
 
 	/**
 	 * Sets the maximum number of results to return.
-	 * If not provided, set to undefined.
+	 * If not provided, set to 0.
 	 *
 	 * @type {number}
 	 */
-	filters.limit = parseInt(query.limit) || undefined;
+	filters.limit = parseInt(query.limit) || 0;
 
 	/**
 	 * Sets the number of results to skip.
 	 * If pageNumber is provided, use it as skip.
 	 * If skip is provided, use it as skip.
-	 * If neither is provided, set to undefined.
+	 * If neither is provided, set to 0.
 	 *
 	 * @type {number}
 	 */
-	filters.skip = parseInt(query.pageNumber) || parseInt(query.skip) || undefined;
+	filters.skip = parseInt(query.pageNumber) || parseInt(query.skip) || 0;
 
-	req.query = query;
+	req.query = newQuery;
 	req.filters = filters;
 	next();
 };
